@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+ <root>
+     <restaurants>
+         <id>0</id>
+         <name>Kabana</name>
+         <cuisine>Indian</cuisine>
+         <city>Berkeley</city>
+         <open>12pm</open>
+         <close>9pm</close>
+     </restaurants>
+     <restaurants>
+         <id>1</id>
+         <name>Cheeseboard</name>
+         <cuisine>Italian</cuisine>
+         <city>Berkeley</city>
+         <open>11am</open>
+         <close>8pm</close>
+     </restaurants>
+     <restaurants>
+         <id>2</id>
+         <name>The Butcher's Son</name>
+         <cuisine>American</cuisine>
+         <city>Berkeley</city>
+         <open>9am</open>
+         <close>3pm</close>
+     </restaurants>
+ </root>
