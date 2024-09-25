@@ -1,22 +1,40 @@
 {
-	"movies": [
+	"restaurants": [
 		{
-			"Title": "Lost In Translation",
-			"Director": "Sofia Coppola",
-			"Rating": "R",
-			"Year": "2003"
+			"Name": "Zuru Zuru",
+			"City": "New Delhi",
+			"Cuisine": "Asian, Japanese",
+			"Price": "$$"
 		},
 		{
-			"Title": "Casino Royale",
-			"Director": "Martin Campbell",
-			"Rating": "PG-13",
-			"Year": "2006"
+			"Name": "Naru Noodle Bar",
+			"City": "Bengaluru",
+			"Cuisine": "Asian, Japanese",
+			"Price": "$$$"
 		},
 		{
-			"Title": "The Dark Knight",
-			"Director": "Christopher Nolan",
-			"Rating": "PG-13",
-			"Year": "2008"
-		}
+			"Name": "Inja",
+			"City": "New Delhi",
+			"Cuisine": "Fusion, Indian, Japanese, Modern Indian",
+			"Price": "$$$"
+		},
+		{
+			"Name": "Leo's Artisan Pizza",
+			"City": "New Delhi",
+			"Cuisine": "Italian, Pizza",
+			"Price": "$$"
+		},
+		{
+			"Name": "Hauz Khas Social",
+			"City": "New Delhi",
+			"Cuisine": "Asian, Chinese, Indian, Italian",
+			"Price": "$$"
+		},
+		{
+			"Name": "PlanB",
+			"City": "Bengaluru",
+			"Cuisine": "American, Fast Food",
+			"Price": "$$"
+		},
 	]
 }
