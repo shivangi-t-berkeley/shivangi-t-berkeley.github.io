@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Who Did What Now? - Daily Philadelphia Speed Logic Puzzle</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lora:wght@500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <main class="app-shell">
+        <section id="game-screen" class="panel">
+            <header class="topbar">
+                <div>
+                    <p class="eyebrow">Philadelphia Inquirer | Night Desk</p>
+                    <h1>🥨 Who Did What Now?</h1>
+                </div>
+                <div class="header-actions">
+                    <button id="replay-btn" class="icon-button" type="button" aria-label="Replay today's puzzle">↺</button>
+                    <button id="help-btn" class="icon-button" type="button" aria-label="How to play">?</button>
+                    <button id="stats-btn" class="icon-button" type="button" aria-label="View stats">📊</button>
+                </div>
+            </header>
+
+            <section id="briefing-card" class="intro-card">
+                <div class="intro-meta">
+                    <span id="puzzle-label" class="pill"></span>
+                    <span id="status-pill" class="pill pill-muted">Live case</span>
+                </div>
+                <h2 id="puzzle-title"></h2>
+                <div id="case-illustration" class="case-illustration" aria-hidden="true"></div>
+                <p id="puzzle-narrative"></p>
+                <div class="briefing-actions">
+                    <p class="briefing-note">The timer starts when you open the file. Once you begin, every second cuts into the score.</p>
+                    <button id="start-case-btn" class="primary-button" type="button">Start Solving</button>
+                </div>
+            </section>
+
+            <section id="play-area" class="play-area">
+                <section class="grid-section">
+                    <div class="section-heading">
+                        <h3>Map the Case</h3>
+                        <p>Use `X` to eliminate a match and `✓` to lock one in. When every person has one answer in each category, the case is checked automatically.</p>
+                    </div>
+                    <div id="grid-container"></div>
+                </section>
+
+                <section class="clue-section">
+                    <div class="clue-meta">
+                        <strong id="clue-counter"></strong>
+                        <div class="time-cluster">
+                            <span class="timer-icon" aria-hidden="true">⏱</span>
+                            <span id="timer-display"></span>
+                            <span id="stakes-display" class="pill pill-muted"></span>
+                        </div>
+                    </div>
+                    <div id="clue-list" class="clue-list"></div>
+                </section>
+            </section>
+
+        </section>
+
+        <section id="already-played-screen" class="panel hidden">
+            <header class="result-header">
+                <p class="eyebrow">Today’s puzzle is already locked</p>
+                <h2 id="already-played-title"></h2>
+                <p id="already-played-summary"></p>
+            </header>
+            <p id="already-played-note" class="result-note"></p>
+            <div id="already-played-grid"></div>
+            <div class="result-actions">
+                <button id="already-played-share" class="primary-button" type="button">Share</button>
+                <button id="already-played-stats" class="secondary-button" type="button">My Stats</button>
+                <button id="already-played-replay" class="secondary-button" type="button">Replay</button>
+            </div>
+            <p id="already-played-countdown" class="countdown"></p>
+        </section>
+
+        <section id="result-screen" class="panel hidden">
+            <header class="result-header">
+                <p id="result-kicker" class="eyebrow"></p>
+                <h2 id="result-title"></h2>
+                <p id="result-summary"></p>
+            </header>
+            <p id="result-note" class="result-note"></p>
+            <div id="result-grid"></div>
+            <div class="result-actions">
+                <button id="share-btn" class="primary-button" type="button">Share</button>
+                <button id="result-stats-btn" class="secondary-button" type="button">My Stats</button>
+                <button id="result-replay-btn" class="secondary-button" type="button">Replay</button>
+            </div>
+            <p id="next-puzzle-countdown" class="countdown"></p>
+        </section>
+    </main>
+
+    <div id="help-modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="help-title">
+        <div class="modal-card">
+            <button class="close-button" type="button" data-close="help-modal" aria-label="Close">&times;</button>
+            <p class="eyebrow">How to play</p>
+            <p id="tutorial-step-label" class="tutorial-step-label"></p>
+            <h2 id="help-title"></h2>
+            <p id="tutorial-text"></p>
+            <ul id="tutorial-list" class="modal-list"></ul>
+            <div id="tutorial-actions" class="modal-actions tutorial-actions">
+                <button id="tutorial-back-btn" class="secondary-button" type="button">Back</button>
+                <button id="tutorial-next-btn" class="primary-button" type="button">Next</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="stats-modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="stats-title">
+        <div class="modal-card">
+            <button class="close-button" type="button" data-close="stats-modal" aria-label="Close">&times;</button>
+            <p class="eyebrow">Your numbers</p>
+            <h2 id="stats-title">Stats</h2>
+            <div id="stats-summary" class="stats-grid"></div>
+            <div>
+                <h3 class="stats-subhead">Score distribution</h3>
+                <div id="stats-distribution" class="distribution"></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="confetti-root" class="confetti-root hidden" aria-hidden="true"></div>
+    <div id="toast" class="toast hidden" aria-live="polite"></div>
+
+    <script src="js/puzzles.js"></script>
+    <script src="js/script.js"></script>
+</body>
+</html>
