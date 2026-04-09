@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="description" content="Mise en Place — A daily food ingredient word search. Find all the ingredients, reveal the dish. New puzzle every day." />
+  <meta name="theme-color" content="#FAF7F2" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Mise en Place" />
+  <meta property="og:description" content="A daily food ingredient word search. Find all the ingredients, reveal the dish." />
+  <meta property="og:type" content="website" />
+
+  <!-- Apple PWA -->
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="Mise en Place" />
+
+  <title>Mise en Place — Daily Food Word Search</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Lora:wght@700&family=JetBrains+Mono:wght@700&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════════════════════════
+       App Shell
+  ════════════════════════════════════════════════════════ -->
+  <div class="app-shell">
+
+    <!-- Top Bar -->
+    <header class="topbar" role="banner">
+      <div class="logo">
+        <span class="logo-wordmark">Mise en Place</span>
+        <span class="logo-tagline">Daily food word search</span>
+      </div>
+      <div class="topbar-actions">
+        <!-- Stats button -->
+        <button id="stats-btn" class="icon-btn" aria-label="View your stats">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <rect x="3" y="12" width="4" height="9" rx="1"/>
+            <rect x="10" y="7"  width="4" height="14" rx="1"/>
+            <rect x="17" y="3"  width="4" height="18" rx="1"/>
+          </svg>
+        </button>
+        <!-- Help button -->
+        <button id="help-btn" class="icon-btn" aria-label="How to play">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <circle cx="12" cy="12" r="10"/>
+            <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/>
+            <line x1="12" y1="17" x2="12.01" y2="17" stroke-linecap="round" stroke-width="2.5"/>
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- Main Game Panel -->
+    <main id="game-panel" role="main" aria-label="Word search puzzle">
+
+      <!-- Puzzle Date -->
+      <div class="puzzle-meta">
+        <div id="puzzle-date" class="puzzle-date" aria-live="polite">Loading…</div>
+        <div class="puzzle-tagline">Find the ingredients</div>
+      </div>
+
+      <!-- Loading state (shown while grid is being generated) -->
+      <div id="loading-state" class="loading-state" aria-live="polite">
+        <div class="loading-spinner" aria-hidden="true"></div>
+        <p class="loading-text">Preparing today's puzzle…</p>
+      </div>
+
+      <!-- Clue Panel (emoji chips) — hidden until grid is ready -->
+      <div
+        id="clue-panel"
+        class="clue-panel hidden"
+        role="list"
+        aria-label="Ingredient clues"
+        aria-live="polite"
+        aria-atomic="false"
+      >
+        <!-- Populated by game.js -->
+      </div>
+
+      <!-- Word Search Grid — hidden until grid is ready -->
+      <div class="grid-wrapper hidden">
+        <div
+          id="word-grid"
+          class="word-grid"
+          role="grid"
+          aria-label="Word search grid"
+          aria-multiselectable="false"
+        >
+          <!-- Populated by game.js -->
+        </div>
+      </div>
+
+    </main><!-- /game-panel -->
+
+  </div><!-- /app-shell -->
+
+  <!-- ═══════════════════════════════════════════════════════
+       Win Overlay
+  ════════════════════════════════════════════════════════ -->
+  <div id="win-overlay" class="win-overlay hidden" role="dialog" aria-modal="true" aria-label="Puzzle complete">
+    <div class="win-card" role="document">
+
+      <!-- Dish illustration -->
+      <div class="win-illustration-wrap">
+        <div class="win-illustration-placeholder" id="win-dish-emoji" aria-hidden="true">🍽️</div>
+      </div>
+
+      <!-- Text -->
+      <div>
+        <div class="win-eyebrow">You cracked the recipe!</div>
+        <h2 id="win-dish-name" class="win-dish-name">—</h2>
+        <p id="win-time" class="win-time"></p>
+      </div>
+
+      <!-- Found emojis -->
+      <div id="win-found-emojis" class="win-found-emojis" aria-label="Ingredients found" role="img"></div>
+
+      <!-- Actions -->
+      <div class="win-actions">
+        <button id="share-btn" class="primary-btn" aria-label="Share your result">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/>
+            <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/>
+            <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
+          </svg>
+          Share result
+        </button>
+        <a id="recipe-link" href="#" target="_blank" rel="noopener noreferrer" class="secondary-btn" aria-label="View the full recipe">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+            <polyline points="15 3 21 3 21 9"/>
+            <line x1="10" y1="14" x2="21" y2="3"/>
+          </svg>
+          View recipe
+        </a>
+      </div>
+
+      <!-- Countdown to next -->
+      <div class="win-tomorrow">
+        <p id="win-countdown" class="win-countdown" aria-live="polite" aria-atomic="true">Next dish in 00:00:00</p>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       Stats Modal
+  ════════════════════════════════════════════════════════ -->
+  <div id="stats-modal" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-label="Your statistics">
+    <div class="modal-card">
+      <button class="close-btn" data-close="stats-modal" aria-label="Close stats">&#215;</button>
+      <div>
+        <div class="modal-eyebrow">Your kitchen record</div>
+        <h2 class="modal-heading">Statistics</h2>
+      </div>
+      <div id="stats-grid" class="stats-grid" role="group" aria-label="Game statistics">
+        <!-- Populated by game.js -->
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       Onboarding / Help Modal
+  ════════════════════════════════════════════════════════ -->
+  <div id="onboarding-modal" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-label="How to play">
+    <div class="modal-card onboarding-card">
+      <button id="onboarding-skip" class="skip-btn" aria-label="Skip tutorial">Skip</button>
+
+      <!-- Visual area -->
+      <div id="onboarding-visual" class="onboarding-visual" aria-hidden="true">
+        <!-- Populated by game.js -->
+      </div>
+
+      <!-- Text -->
+      <div>
+        <h2 id="onboarding-title" class="onboarding-title">Welcome!</h2>
+        <p  id="onboarding-body"  class="onboarding-body" style="margin-top:8px">Loading…</p>
+      </div>
+
+      <!-- Progress dots -->
+      <div id="onboarding-dots" class="onboarding-dots" role="tablist" aria-label="Step progress">
+        <!-- Populated by game.js -->
+      </div>
+
+      <!-- Navigation -->
+      <div class="modal-actions">
+        <button id="onboarding-back" class="ghost-btn" aria-label="Previous step">← Back</button>
+        <button id="onboarding-next" class="primary-btn" aria-label="Next step">Next</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       Toast notification
+  ════════════════════════════════════════════════════════ -->
+  <div id="toast" class="toast hidden" role="status" aria-live="polite" aria-atomic="true"></div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       Scripts — order matters
+  ════════════════════════════════════════════════════════ -->
+  <script src="js/puzzles.js"></script>
+  <script src="js/generator.js"></script>
+  <script src="js/game.js"></script>
+
+</body>
+</html>
