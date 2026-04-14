@@ -1,0 +1,15 @@
+{
+  "id": "2026-04-15",
+  "words": ["MERCURY", "VENUS", "MARS", "EARTH", "SATURN"],
+  "impostor": "EARTH",
+  "connection": "Four share their name with a major Roman deity. Earth's Roman equivalent is Terra — not a major god named Earth.",
+  "hints": [
+    "The connection goes beyond astronomy.",
+    "Think mythology, not science.",
+    "Four of these planets share their names with Roman gods.",
+    "Mercury, Venus, Mars, and Saturn are all Roman deities. Earth is not named after a god — its Roman name is Terra."
+  ],
+  "difficulty": "easy",
+  "tags": ["mythology", "planets", "history"],
+  "display_word_order": [4, 1, 3, 0, 2]
+}

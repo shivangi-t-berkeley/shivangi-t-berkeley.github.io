@@ -1,0 +1,15 @@
+{
+  "id": "2026-04-17",
+  "words": ["WHISKEY", "BOURBON", "SCOTCH", "RYE", "GIN"],
+  "impostor": "GIN",
+  "connection": "Four are types of whisky: Whiskey, Bourbon, Scotch, and Rye are all in the whisky family. Gin is a completely different distilled spirit.",
+  "hints": [
+    "The connection is about drinks, but more specific than just spirits.",
+    "Think about a specific category of distilled alcohol.",
+    "Four of these belong to the same family of spirit.",
+    "Whiskey, Bourbon, Scotch, and Rye are all whiskies. Gin is not — it's a different spirit distilled from grain but flavored with botanicals."
+  ],
+  "difficulty": "easy",
+  "tags": ["drinks", "spirits", "food and drink"],
+  "display_word_order": [4, 2, 0, 3, 1]
+}

@@ -1,0 +1,15 @@
+{
+  "id": "2026-04-18",
+  "words": ["NINETEEN", "FOURTEEN", "SEVENTEEN", "EIGHTEEN", "THIRTY"],
+  "impostor": "THIRTY",
+  "connection": "Four contain a smaller number word hidden within their spelling: NINETEEN has NINE, FOURTEEN has FOUR, SEVENTEEN has SEVEN, EIGHTEEN has EIGHT. THIRTY contains no number word.",
+  "hints": [
+    "Look at the letters, not the numerical value.",
+    "Each word might be hiding something inside it.",
+    "Four of them contain another number word spelled out within them.",
+    "NINETEEN has NINE, FOURTEEN has FOUR, SEVENTEEN has SEVEN, EIGHTEEN has EIGHT — THIRTY contains no hidden number word."
+  ],
+  "difficulty": "medium",
+  "tags": ["wordplay", "numbers", "language"],
+  "display_word_order": [0, 3, 4, 2, 1]
+}

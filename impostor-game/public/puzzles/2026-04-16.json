@@ -1,0 +1,15 @@
+{
+  "id": "2026-04-16",
+  "words": ["BLACK", "BLUE", "SNOW", "CAT", "GREEN"],
+  "impostor": "GREEN",
+  "connection": "Four precede BIRD to name a real bird species: Blackbird, Bluebird, Snowbird, Catbird. Greenbird is not a recognized species.",
+  "hints": [
+    "The connection involves combining each word with another word.",
+    "Think compound words.",
+    "Try adding BIRD after each word.",
+    "BLACKBIRD, BLUEBIRD, SNOWBIRD, and CATBIRD are all real bird species. GREENBIRD is not."
+  ],
+  "difficulty": "medium",
+  "tags": ["nature", "birds", "compound words"],
+  "display_word_order": [1, 4, 0, 3, 2]
+}
