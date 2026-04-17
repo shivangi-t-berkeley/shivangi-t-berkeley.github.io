@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 const SLIDES = [
   {
@@ -70,31 +70,77 @@ function HintsVisual() {
 }
 
 function RevealVisual() {
+  const [stage, setStage] = useState('selecting');
+
+  useEffect(() => {
+    let t;
+    if (stage === 'selecting') {
+      t = setTimeout(() => setStage('revealed'), 1200);
+    } else {
+      t = setTimeout(() => setStage('selecting'), 2800);
+    }
+    return () => clearTimeout(t);
+  }, [stage]);
+
   return (
-    <div className="w-full max-w-xs mx-auto text-center">
-      <div className="bg-game-correct rounded-sm py-2 px-4 mb-3">
+    <div className="w-full max-w-xs mx-auto space-y-3">
+      {/* Banner — fades in on reveal */}
+      <div
+        style={{
+          transition: 'opacity 0.35s ease, transform 0.35s ease',
+          opacity: stage === 'revealed' ? 1 : 0,
+          transform: stage === 'revealed' ? 'translateY(0)' : 'translateY(-6px)',
+        }}
+        className="bg-game-correct rounded-sm py-2 px-4 text-center"
+      >
         <span className="text-white text-xs font-bold uppercase tracking-widest">
-          Correct — impostor found!
+          Correct — You found the impostor!
         </span>
       </div>
-      <p className="text-game-text text-xs mb-3 leading-relaxed">
-        Four words reverse into real English words. STONE does not.
-      </p>
-      <div className="flex flex-wrap gap-1.5 justify-center">
-        {EXAMPLE_WORDS.map((w) => (
-          <span
-            key={w}
-            className={[
-              'text-xs font-bold uppercase px-2 py-1 rounded-sm border',
-              w === 'STONE'
-                ? 'border-[#dc2626] text-[#dc2626]'
-                : 'border-game-accent text-game-accent',
-            ].join(' ')}
-            style={{ fontFamily: '"Space Grotesk", system-ui, sans-serif' }}
-          >
-            {w}
-          </span>
-        ))}
+
+      {/* Mini word grid */}
+      <div className="grid grid-cols-3 gap-1.5">
+        {EXAMPLE_WORDS.map((w) => {
+          const isImpostor = w === 'STONE';
+          let borderColor = '#2a2a2a';
+          let textColor = '#f5f5f5';
+          if (stage === 'revealed') {
+            borderColor = isImpostor ? '#dc2626' : '#f5c842';
+            textColor = isImpostor ? '#dc2626' : '#f5c842';
+          } else if (isImpostor) {
+            borderColor = '#f5f5f5';
+          }
+          return (
+            <div
+              key={w}
+              style={{
+                border: `1.5px solid ${borderColor}`,
+                color: textColor,
+                transition: 'border-color 0.3s ease, color 0.3s ease',
+                fontFamily: '"Space Grotesk", system-ui, sans-serif',
+              }}
+              className="rounded-sm px-2 py-3 text-xs font-bold uppercase tracking-widest text-center bg-game-card"
+            >
+              {w}
+            </div>
+          );
+        })}
+      </div>
+
+      {/* Confirm button — fades out on reveal */}
+      <div
+        style={{
+          transition: 'opacity 0.25s ease',
+          opacity: stage === 'selecting' ? 1 : 0,
+          pointerEvents: 'none',
+        }}
+      >
+        <div
+          className="w-full py-2 bg-game-text text-game-bg text-xs font-bold uppercase tracking-widest rounded-sm text-center"
+          style={{ fontFamily: '"Space Grotesk", system-ui, sans-serif' }}
+        >
+          Confirm — STONE
+        </div>
       </div>
     </div>
   );
@@ -143,7 +189,7 @@ export default function OnboardingOverlay({ onComplete }) {
         </div>
 
         {/* Visual area */}
-        <div className="px-6 pb-6 min-h-[160px] flex items-center justify-center">
+        <div className="px-6 pb-6 min-h-[200px] flex items-center justify-center">
           {visuals[current.visual]}
         </div>
 

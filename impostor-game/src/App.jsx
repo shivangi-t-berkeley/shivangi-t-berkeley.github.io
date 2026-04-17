@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import Header from './components/Header.jsx';
 import WordGrid from './components/WordGrid.jsx';
 import HintPanel from './components/HintPanel.jsx';
@@ -6,8 +6,10 @@ import ConnectionReveal from './components/ConnectionReveal.jsx';
 import ScoreCard from './components/ScoreCard.jsx';
 import StatsModal from './components/StatsModal.jsx';
 import OnboardingOverlay from './components/OnboardingOverlay.jsx';
+import Confetti from './components/Confetti.jsx';
 import { useGameState } from './hooks/useGameState.js';
 import { useStats } from './hooks/useStats.js';
+import { useTriumphSound } from './hooks/useTriumphSound.js';
 
 function LoadingScreen() {
   return (
@@ -62,6 +64,7 @@ export default function App() {
   const [showStats, setShowStats] = useState(false);
   const [showOnboarding, setShowOnboarding] = useState(false);
   const { stats, recordResult } = useStats();
+  const { playTriumph } = useTriumphSound();
 
   const handleGameComplete = useCallback(
     (won, wrongCount) => {
@@ -92,6 +95,11 @@ export default function App() {
     // Re-show the onboarding overlay when help is clicked
     setShowOnboarding(true);
   }, []);
+
+  // Play fanfare once when the player wins and enters the revealing phase
+  useEffect(() => {
+    if (won && phase === 'revealing') playTriumph();
+  }, [won, phase, playTriumph]);
 
   if (phase === 'loading') {
     return (
@@ -129,8 +137,12 @@ export default function App() {
   const wrongGuessCount = wrongGuesses.length;
   const maxWrong = 5;
 
+  const showConfetti = won && (phase === 'revealing' || phase === 'scorecard');
+
   return (
     <div className="min-h-screen bg-game-bg flex flex-col">
+      {showConfetti && <Confetti />}
+
       {/* Onboarding overlay — first-time OR help button */}
       {(phase === 'onboarding' || showOnboarding) && (
         <OnboardingOverlay
