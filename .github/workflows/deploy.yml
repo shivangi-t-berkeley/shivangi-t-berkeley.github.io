@@ -1,0 +1,75 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install impostor-game dependencies
+        working-directory: impostor-game
+        run: npm install
+
+      - name: Build impostor-game
+        working-directory: impostor-game
+        run: npm run build
+
+      - name: Assemble deployment folder
+        run: |
+          mkdir -p _site
+
+          # Copy root site files
+          rsync -a \
+            --exclude='_site' \
+            --exclude='.git' \
+            --exclude='.github' \
+            --exclude='.claude' \
+            --exclude='node_modules' \
+            --exclude='impostor-game' \
+            --exclude='wordsearch-game' \
+            . _site/
+
+          # Place built game at /impostor-game/ (not /impostor-game/dist/)
+          cp -r impostor-game/dist/. _site/impostor-game/
+
+          # Copy wordsearch-game as-is (static, no build step)
+          cp -r wordsearch-game _site/wordsearch-game
+
+          # Prevent Jekyll from mangling underscore files
+          touch _site/.nojekyll
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
