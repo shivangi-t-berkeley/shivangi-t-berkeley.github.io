@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(node --check /Users/shivangi/Documents/GitHub/shivangi-t.github.io/wordsearch-game/js/generator.js)",
+      "Bash(node --check /Users/shivangi/Documents/GitHub/shivangi-t.github.io/wordsearch-game/js/puzzles.js)",
+      "Bash(node --check /Users/shivangi/Documents/GitHub/shivangi-t.github.io/wordsearch-game/js/game.js)",
+      "mcp__Claude_Preview__preview_start",
+      "Bash(node js/generate-puzzles.cjs)"
+    ]
+  }
+}

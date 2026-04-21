@@ -1,0 +1,15 @@
+{
+  "id": "2026-04-17",
+  "words": ["IRON", "BRONZE", "STONE", "ICE", "COPPER"],
+  "impostor": "COPPER",
+  "connection": "Four are the first word of a recognized historical or geological age: Iron Age, Bronze Age, Stone Age, Ice Age. \"Copper Age\" is not the standard English name — the correct term is the Chalcolithic.",
+  "hints": [
+    "The connection is historical.",
+    "Think about named periods of human history or Earth's geology.",
+    "Four of these precede AGE to name a recognized era.",
+    "Iron Age, Bronze Age, Stone Age, and Ice Age are all standard terms. \"Copper Age\" is not — historians call it the Chalcolithic or Eneolithic."
+  ],
+  "difficulty": "hard",
+  "tags": ["history", "geology", "ages"],
+  "display_word_order": [2, 0, 4, 1, 3]
+}
