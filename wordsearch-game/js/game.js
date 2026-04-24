@@ -514,6 +514,7 @@
   }
 
   async function onWordFound(word) {
+    playSizzle();
     const colorIdx = gameState.foundWords.length;
     gameState.foundWords.push(word.word);
     saveState();
@@ -606,8 +607,84 @@
     checkSelection(cells);
   }
 
+  // ─── Audio ────────────────────────────────────────────────────────────────
+  let audioCtx = null;
+  function getAudioCtx() {
+    if (!audioCtx) {
+      try { audioCtx = new (window.AudioContext || window.webkitAudioContext)(); } catch {}
+    }
+    return audioCtx;
+  }
+
+  function playSizzle() {
+    const ctx = getAudioCtx();
+    if (!ctx) return;
+    const t = ctx.currentTime;
+    const dur = 0.22;
+
+    // Noise burst
+    const bufLen = Math.floor(ctx.sampleRate * dur);
+    const buf = ctx.createBuffer(1, bufLen, ctx.sampleRate);
+    const data = buf.getChannelData(0);
+    for (let i = 0; i < bufLen; i++) data[i] = Math.random() * 2 - 1;
+    const noise = ctx.createBufferSource();
+    noise.buffer = buf;
+
+    const filter = ctx.createBiquadFilter();
+    filter.type = 'bandpass';
+    filter.frequency.value = 3500;
+    filter.Q.value = 0.8;
+
+    const gain = ctx.createGain();
+    gain.gain.setValueAtTime(0.18, t);
+    gain.gain.exponentialRampToValueAtTime(0.001, t + dur);
+
+    noise.connect(filter);
+    filter.connect(gain);
+    gain.connect(ctx.destination);
+    noise.start(t);
+
+    // Punchy pop at the start
+    const osc = ctx.createOscillator();
+    const oscGain = ctx.createGain();
+    osc.frequency.setValueAtTime(220, t);
+    osc.frequency.exponentialRampToValueAtTime(80, t + 0.08);
+    oscGain.gain.setValueAtTime(0.12, t);
+    oscGain.gain.exponentialRampToValueAtTime(0.001, t + 0.08);
+    osc.connect(oscGain);
+    oscGain.connect(ctx.destination);
+    osc.start(t);
+    osc.stop(t + 0.08);
+  }
+
+  function playTriumph() {
+    const ctx = getAudioCtx();
+    if (!ctx) return;
+    const t = ctx.currentTime;
+    // Ascending sparkle arpeggio: C5 E5 G5 C6, each with a shimmer harmonic
+    const notes = [523.25, 659.25, 783.99, 1046.50];
+    notes.forEach((freq, i) => {
+      const start = t + i * 0.13;
+      [1, 2, 3].forEach((harmonic, hi) => {
+        const osc = ctx.createOscillator();
+        const g = ctx.createGain();
+        osc.type = 'sine';
+        osc.frequency.value = freq * harmonic;
+        const vol = 0.22 / harmonic;
+        g.gain.setValueAtTime(0, start);
+        g.gain.linearRampToValueAtTime(vol, start + 0.02);
+        g.gain.exponentialRampToValueAtTime(0.001, start + 0.55 - hi * 0.05);
+        osc.connect(g);
+        g.connect(ctx.destination);
+        osc.start(start);
+        osc.stop(start + 0.6);
+      });
+    });
+  }
+
   // ─── Win Sequence ─────────────────────────────────────────────────────────
   async function triggerGather() {
+    playTriumph();
     const cells = [...document.querySelectorAll('.cell-emoji')];
     cells.forEach((cell, i) => {
       setTimeout(() => cell.classList.add('cell-sparkle'), i * 50);
