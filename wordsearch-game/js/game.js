@@ -423,6 +423,7 @@
 
   function applyFoundHighlights() {
     gameState.foundWords.forEach((wordId, colorIdx) => {
+      const w = puzzle.words.find(pw => pw.word === wordId);
       const placement = generatedGrid.placements.find(p => p.wordId === wordId);
       if (!placement) return;
       placement.cells.forEach(({ row, col }) => {
@@ -430,6 +431,10 @@
         if (cell) {
           cell.classList.add(WORD_COLORS[colorIdx % WORD_COLORS.length]);
           cell.dataset.found = wordId;
+          if (w) {
+            cell.textContent = w.emoji;
+            cell.classList.add('cell-emoji');
+          }
         }
       });
     });
@@ -523,6 +528,10 @@
           cell.classList.remove('is-selecting');
           cell.classList.add(colorClass, 'cell-pop');
           cell.dataset.found = word.word;
+          setTimeout(() => {
+            cell.textContent = word.emoji;
+            cell.classList.add('cell-emoji');
+          }, 400);
           setTimeout(() => cell.classList.remove('cell-pop'), 400);
         }
       });
@@ -598,12 +607,22 @@
   }
 
   // ─── Win Sequence ─────────────────────────────────────────────────────────
+  async function triggerGather() {
+    const cells = [...document.querySelectorAll('.cell-emoji')];
+    cells.forEach((cell, i) => {
+      setTimeout(() => cell.classList.add('cell-sparkle'), i * 50);
+    });
+    await delay(cells.length * 50 + 600);
+  }
+
   async function triggerWin() {
     gameState.endTime = Date.now();
     saveState();
     updateStats();
 
     if (timerInterval) clearInterval(timerInterval);
+
+    await triggerGather();
 
     const elapsed = gameState.endTime - gameState.startTime;
 

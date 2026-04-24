@@ -374,6 +374,22 @@ ul, ol { list-style: none; }
   100% { transform: scale(1); }
 }
 
+.grid-cell.cell-emoji {
+  font-size: clamp(14px, 4vw, 22px);
+  line-height: 1;
+}
+
+.grid-cell.cell-sparkle {
+  animation: cellSparkle 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+@keyframes cellSparkle {
+  0%   { transform: scale(1);    filter: brightness(1); }
+  35%  { transform: scale(1.4);  filter: brightness(1.6) drop-shadow(0 0 6px gold); }
+  65%  { transform: scale(1.15); filter: brightness(1.3) drop-shadow(0 0 3px gold); }
+  100% { transform: scale(1);    filter: brightness(1); }
+}
+
 /* ─── Win Overlay ────────────────────────────────────────── */
 .win-overlay {
   position: fixed;

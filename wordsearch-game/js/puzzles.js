@@ -45,7 +45,7 @@ const PUZZLES = [
     illustration_asset: null
   },
   {
-    id: "2026-04-17",
+    id: "2026-04-24",
     dish_name: "Guacamole",
     dish_display_name: "Guacamole",
     cuisine: "Mexican",
