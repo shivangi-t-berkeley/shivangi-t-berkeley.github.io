@@ -5,7 +5,8 @@ const DIFFICULTY_COLOR = { easy: '#22c55e', medium: '#f5c842', hard: '#ef4444' }
 
 function getCompletionState(date) {
   try {
-    const raw = localStorage.getItem(`impostor_puzzle_${date}_state`);
+    // Archive plays are stored under a separate key prefix
+    const raw = localStorage.getItem(`impostor_archive_${date}_state`);
     if (!raw) return null;
     return JSON.parse(raw);
   } catch {

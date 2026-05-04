@@ -95,6 +95,7 @@ export default function App() {
     confirmGuess,
     completeOnboarding,
     proceedToScorecard,
+    resetPuzzle,
   } = useGameState(handleGameComplete, archiveDate);
 
   const handleHelpClick = useCallback(() => setShowOnboarding(true), []);
@@ -235,12 +236,21 @@ export default function App() {
 
         {/* Scorecard phase */}
         {phase === 'scorecard' && (
-          <ScoreCard
-            puzzle={puzzle}
-            guesses={guesses}
-            displayedWords={displayedWords}
-            won={won}
-          />
+          <>
+            <ScoreCard
+              puzzle={puzzle}
+              guesses={guesses}
+              displayedWords={displayedWords}
+              won={won}
+            />
+            <button
+              onClick={resetPuzzle}
+              className="text-game-muted hover:text-game-text text-xs uppercase tracking-widest transition-colors"
+              style={{ fontFamily: '"Space Grotesk", system-ui, sans-serif' }}
+            >
+              ↺ Reset puzzle
+            </button>
+          </>
         )}
 
         {/* Playing / Revealing phases */}
@@ -291,6 +301,13 @@ export default function App() {
                       Select a word to guess
                     </p>
                   )}
+                  <button
+                    onClick={resetPuzzle}
+                    className="text-game-muted hover:text-game-text text-xs uppercase tracking-widest transition-colors mt-2"
+                    style={{ fontFamily: '"Space Grotesk", system-ui, sans-serif' }}
+                  >
+                    ↺ Reset puzzle
+                  </button>
                 </div>
               </>
             )}

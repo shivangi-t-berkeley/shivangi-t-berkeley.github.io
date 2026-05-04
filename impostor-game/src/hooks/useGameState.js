@@ -3,13 +3,16 @@ import { getTodayString } from '../utils/dateUtils.js';
 
 const ONBOARDING_KEY = 'impostor_onboarding_complete';
 
-function getPuzzleStateKey(dateStr) {
-  return `impostor_puzzle_${dateStr}_state`;
+function getPuzzleStateKey(dateStr, isArchive) {
+  // Archive plays are stored separately so they never conflict with daily puzzle state
+  return isArchive
+    ? `impostor_archive_${dateStr}_state`
+    : `impostor_puzzle_${dateStr}_state`;
 }
 
-function loadSavedState(dateStr) {
+function loadSavedState(dateStr, isArchive) {
   try {
-    const raw = localStorage.getItem(getPuzzleStateKey(dateStr));
+    const raw = localStorage.getItem(getPuzzleStateKey(dateStr, isArchive));
     if (!raw) return null;
     return JSON.parse(raw);
   } catch {
@@ -17,7 +20,7 @@ function loadSavedState(dateStr) {
   }
 }
 
-function saveState(dateStr, state) {
+function saveState(dateStr, isArchive, state) {
   try {
     const toSave = {
       guesses: state.guesses,
@@ -25,7 +28,7 @@ function saveState(dateStr, state) {
       phase: state.phase,
       won: state.won,
     };
-    localStorage.setItem(getPuzzleStateKey(dateStr), JSON.stringify(toSave));
+    localStorage.setItem(getPuzzleStateKey(dateStr, isArchive), JSON.stringify(toSave));
   } catch {
     // ignore
   }
@@ -41,11 +44,11 @@ export function useGameState(onGameComplete, overrideDateStr = null) {
   const dateStr = overrideDateStr ?? todayStr;
   const isArchive = overrideDateStr !== null;
 
-  const [phase, setPhase] = useState('loading'); // loading | onboarding | playing | revealing | scorecard
+  const [phase, setPhase] = useState('loading');
   const [puzzle, setPuzzle] = useState(null);
   const [displayedWords, setDisplayedWords] = useState([]);
   const [selectedWord, setSelectedWord] = useState(null);
-  const [guesses, setGuesses] = useState([]); // array of guessed words in order
+  const [guesses, setGuesses] = useState([]);
   const [hintsRevealed, setHintsRevealed] = useState(0);
   const [won, setWon] = useState(false);
   const [shakingWord, setShakingWord] = useState(null);
@@ -55,9 +58,12 @@ export function useGameState(onGameComplete, overrideDateStr = null) {
   const onGameCompleteRef = useRef(onGameComplete);
   onGameCompleteRef.current = onGameComplete;
 
-  // Load puzzle whenever the target date changes (daily → archive or vice versa)
+  // Stable ref for puzzle so callbacks can read it without re-creating
+  const puzzleRef = useRef(puzzle);
+  puzzleRef.current = puzzle;
+
+  // Load puzzle whenever the target date changes (daily ↔ archive)
   useEffect(() => {
-    // Reset all transient state before loading new puzzle
     setPhase('loading');
     setSelectedWord(null);
     setGuesses([]);
@@ -81,8 +87,7 @@ export function useGameState(onGameComplete, overrideDateStr = null) {
         setPuzzle(data);
         setDisplayedWords(buildDisplayedWords(data));
 
-        // Check saved state
-        const saved = loadSavedState(dateStr);
+        const saved = loadSavedState(dateStr, isArchive);
         if (saved && (saved.phase === 'revealing' || saved.phase === 'scorecard')) {
           setGuesses(saved.guesses || []);
           setHintsRevealed(saved.hintsRevealed || 0);
@@ -96,16 +101,12 @@ export function useGameState(onGameComplete, overrideDateStr = null) {
           setHintsRevealed(saved.hintsRevealed || 0);
         }
 
-        // Archive puzzles skip onboarding — player already knows how to play
+        // Archive puzzles skip onboarding
         if (isArchive) {
           setPhase('playing');
         } else {
           const onboardingDone = localStorage.getItem(ONBOARDING_KEY) === 'true';
-          if (!onboardingDone) {
-            setPhase('onboarding');
-          } else {
-            setPhase('playing');
-          }
+          setPhase(onboardingDone ? 'playing' : 'onboarding');
         }
       } catch (err) {
         setError(err.message);
@@ -116,11 +117,11 @@ export function useGameState(onGameComplete, overrideDateStr = null) {
     fetchPuzzle();
   }, [dateStr, isArchive]);
 
-  // Persist state whenever it changes (during playing phase)
+  // Persist state on every meaningful change
   useEffect(() => {
     if (!puzzle || phase === 'loading' || phase === 'onboarding' || phase === 'no-puzzle' || phase === 'error') return;
-    saveState(dateStr, { guesses, hintsRevealed, phase, won });
-  }, [puzzle, guesses, hintsRevealed, phase, won, dateStr]);
+    saveState(dateStr, isArchive, { guesses, hintsRevealed, phase, won });
+  }, [puzzle, guesses, hintsRevealed, phase, won, dateStr, isArchive]);
 
   const completeOnboarding = useCallback(() => {
     localStorage.setItem(ONBOARDING_KEY, 'true');
@@ -130,7 +131,7 @@ export function useGameState(onGameComplete, overrideDateStr = null) {
   const selectWord = useCallback(
     (word) => {
       if (phase !== 'playing') return;
-      if (guesses.includes(word)) return; // already guessed
+      if (guesses.includes(word)) return;
       setSelectedWord((prev) => (prev === word ? null : word));
     },
     [phase, guesses]
@@ -140,47 +141,56 @@ export function useGameState(onGameComplete, overrideDateStr = null) {
     if (!selectedWord || phase !== 'playing') return;
     if (guesses.includes(selectedWord)) return;
 
-    const isCorrect = selectedWord === puzzle.impostor;
+    const p = puzzleRef.current;
+    const isCorrect = selectedWord === p.impostor;
     const newGuesses = [...guesses, selectedWord];
 
     if (isCorrect) {
-      const wrongCount = newGuesses.filter((g) => g !== puzzle.impostor).length;
+      const wrongCount = newGuesses.filter((g) => g !== p.impostor).length;
       setGuesses(newGuesses);
       setSelectedWord(null);
       setWon(true);
       setPhase('revealing');
-      saveState(dateStr, { guesses: newGuesses, hintsRevealed, phase: 'revealing', won: true });
+      saveState(dateStr, isArchive, { guesses: newGuesses, hintsRevealed, phase: 'revealing', won: true });
       onGameCompleteRef.current?.(true, wrongCount);
     } else {
-      // Wrong guess — shake, reveal next hint, clear selection
       setShakingWord(selectedWord);
       setTimeout(() => setShakingWord(null), 600);
 
-      const wrongCount = newGuesses.filter((g) => g !== puzzle.impostor).length;
-      const newHints = Math.min(hintsRevealed + 1, puzzle.hints.length);
+      const wrongCount = newGuesses.filter((g) => g !== p.impostor).length;
+      const newHints = Math.min(hintsRevealed + 1, p.hints.length);
 
       setGuesses(newGuesses);
       setHintsRevealed(newHints);
       setSelectedWord(null);
 
       if (wrongCount >= 5) {
-        // Fail state
         setWon(false);
         setTimeout(() => {
           setPhase('revealing');
-          saveState(dateStr, { guesses: newGuesses, hintsRevealed: newHints, phase: 'revealing', won: false });
+          saveState(dateStr, isArchive, { guesses: newGuesses, hintsRevealed: newHints, phase: 'revealing', won: false });
           onGameCompleteRef.current?.(false, wrongCount);
         }, 700);
       } else {
-        saveState(dateStr, { guesses: newGuesses, hintsRevealed: newHints, phase: 'playing', won: false });
+        saveState(dateStr, isArchive, { guesses: newGuesses, hintsRevealed: newHints, phase: 'playing', won: false });
       }
     }
-  }, [selectedWord, phase, guesses, puzzle, hintsRevealed, dateStr]);
+  }, [selectedWord, phase, guesses, hintsRevealed, dateStr, isArchive]);
 
   const proceedToScorecard = useCallback(() => {
     setPhase('scorecard');
-    saveState(dateStr, { guesses, hintsRevealed, phase: 'scorecard', won });
-  }, [dateStr, guesses, hintsRevealed, won]);
+    saveState(dateStr, isArchive, { guesses, hintsRevealed, phase: 'scorecard', won });
+  }, [dateStr, isArchive, guesses, hintsRevealed, won]);
+
+  const resetPuzzle = useCallback(() => {
+    localStorage.removeItem(getPuzzleStateKey(dateStr, isArchive));
+    setSelectedWord(null);
+    setGuesses([]);
+    setHintsRevealed(0);
+    setWon(false);
+    setShakingWord(null);
+    setPhase('playing');
+  }, [dateStr, isArchive]);
 
   const wrongGuesses = guesses.filter((g) => puzzle && g !== puzzle.impostor);
 
@@ -201,5 +211,6 @@ export function useGameState(onGameComplete, overrideDateStr = null) {
     confirmGuess,
     completeOnboarding,
     proceedToScorecard,
+    resetPuzzle,
   };
 }
