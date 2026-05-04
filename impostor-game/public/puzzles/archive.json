@@ -1,0 +1,9 @@
+[
+  { "number": 1, "date": "2026-04-13", "difficulty": "medium" },
+  { "number": 2, "date": "2026-04-14", "difficulty": "hard" },
+  { "number": 3, "date": "2026-04-15", "difficulty": "easy" },
+  { "number": 4, "date": "2026-04-16", "difficulty": "medium" },
+  { "number": 5, "date": "2026-04-17", "difficulty": "hard" },
+  { "number": 6, "date": "2026-04-18", "difficulty": "medium" },
+  { "number": 7, "date": "2026-04-19", "difficulty": "easy" }
+]

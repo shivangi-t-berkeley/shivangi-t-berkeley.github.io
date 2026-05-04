@@ -25,23 +25,21 @@ const EXAMPLE_HINTS = [
 ];
 
 function GridVisual() {
-  const [selected, setSelected] = useState(null);
   return (
-    <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 w-full max-w-xs mx-auto pointer-events-auto">
+    <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 w-full max-w-xs mx-auto pointer-events-none">
       {EXAMPLE_WORDS.map((w) => (
-        <button
+        <div
           key={w}
-          onClick={() => setSelected(w === selected ? null : w)}
           className={[
-            'rounded-sm border px-3 py-4 text-sm font-bold uppercase tracking-widest transition-all',
-            selected === w
+            'rounded-sm border px-3 py-4 text-sm font-bold uppercase tracking-widest',
+            w === 'DELIVER'
               ? 'bg-[#252525] border-game-text text-game-text'
-              : 'bg-game-card border-game-border text-game-text hover:border-[#444]',
+              : 'bg-game-card border-game-border text-game-text',
           ].join(' ')}
           style={{ fontFamily: '"Space Grotesk", system-ui, sans-serif' }}
         >
           {w}
-        </button>
+        </div>
       ))}
     </div>
   );
@@ -173,17 +171,15 @@ export default function OnboardingOverlay({ onComplete }) {
           </button>
         </div>
 
-        {/* Slide indicator */}
+        {/* Slide indicator — decorative only */}
         <div className="flex justify-center gap-2 pt-2 pb-4">
           {SLIDES.map((_, i) => (
-            <button
+            <div
               key={i}
-              onClick={() => setSlide(i)}
               className={[
                 'h-1 rounded-full transition-all duration-200',
                 i === slide ? 'w-6 bg-game-accent' : 'w-2 bg-game-border',
               ].join(' ')}
-              aria-label={`Slide ${i + 1}`}
             />
           ))}
         </div>

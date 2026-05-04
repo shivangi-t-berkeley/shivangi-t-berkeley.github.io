@@ -36,7 +36,11 @@ function buildDisplayedWords(puzzle) {
   return puzzle.display_word_order.map((idx) => puzzle.words[idx]);
 }
 
-export function useGameState(onGameComplete) {
+export function useGameState(onGameComplete, overrideDateStr = null) {
+  const todayStr = getTodayString();
+  const dateStr = overrideDateStr ?? todayStr;
+  const isArchive = overrideDateStr !== null;
+
   const [phase, setPhase] = useState('loading'); // loading | onboarding | playing | revealing | scorecard
   const [puzzle, setPuzzle] = useState(null);
   const [displayedWords, setDisplayedWords] = useState([]);
@@ -48,12 +52,23 @@ export function useGameState(onGameComplete) {
   const [noPuzzle, setNoPuzzle] = useState(false);
   const [error, setError] = useState(null);
 
-  const dateStr = getTodayString();
   const onGameCompleteRef = useRef(onGameComplete);
   onGameCompleteRef.current = onGameComplete;
 
-  // Load puzzle on mount
+  // Load puzzle whenever the target date changes (daily → archive or vice versa)
   useEffect(() => {
+    // Reset all transient state before loading new puzzle
+    setPhase('loading');
+    setSelectedWord(null);
+    setGuesses([]);
+    setHintsRevealed(0);
+    setWon(false);
+    setShakingWord(null);
+    setNoPuzzle(false);
+    setError(null);
+    setPuzzle(null);
+    setDisplayedWords([]);
+
     async function fetchPuzzle() {
       try {
         const res = await fetch(`/impostor-game/puzzles/${dateStr}.json`);
@@ -79,15 +94,18 @@ export function useGameState(onGameComplete) {
         if (saved && saved.phase === 'playing') {
           setGuesses(saved.guesses || []);
           setHintsRevealed(saved.hintsRevealed || 0);
-          setWon(false);
         }
 
-        // Check onboarding
-        const onboardingDone = localStorage.getItem(ONBOARDING_KEY) === 'true';
-        if (!onboardingDone) {
-          setPhase('onboarding');
-        } else {
+        // Archive puzzles skip onboarding — player already knows how to play
+        if (isArchive) {
           setPhase('playing');
+        } else {
+          const onboardingDone = localStorage.getItem(ONBOARDING_KEY) === 'true';
+          if (!onboardingDone) {
+            setPhase('onboarding');
+          } else {
+            setPhase('playing');
+          }
         }
       } catch (err) {
         setError(err.message);
@@ -96,7 +114,7 @@ export function useGameState(onGameComplete) {
     }
 
     fetchPuzzle();
-  }, [dateStr]);
+  }, [dateStr, isArchive]);
 
   // Persist state whenever it changes (during playing phase)
   useEffect(() => {

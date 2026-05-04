@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function Header({ onStatsClick, onHelpClick }) {
+export default function Header({ onStatsClick, onHelpClick, onArchiveClick }) {
   return (
     <header className="w-full border-b border-game-border bg-game-bg sticky top-0 z-40">
       <div className="max-w-2xl mx-auto px-4 flex items-center justify-between h-14">
@@ -15,6 +15,20 @@ export default function Header({ onStatsClick, onHelpClick }) {
         {/* Actions */}
         <div className="flex items-center gap-1">
           <button
+            onClick={onArchiveClick}
+            aria-label="Puzzle archive"
+            className="p-2 rounded text-game-muted hover:text-game-text hover:bg-game-card transition-colors"
+            title="Archive"
+          >
+            {/* 2×2 grid icon — represents multiple puzzles */}
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+              <rect x="2"  y="2"  width="7" height="7" rx="0.75" />
+              <rect x="11" y="2"  width="7" height="7" rx="0.75" />
+              <rect x="2"  y="11" width="7" height="7" rx="0.75" />
+              <rect x="11" y="11" width="7" height="7" rx="0.75" />
+            </svg>
+          </button>
+          <button
             onClick={onStatsClick}
             aria-label="View statistics"
             className="p-2 rounded text-game-muted hover:text-game-text hover:bg-game-card transition-colors"
@@ -25,7 +39,6 @@ export default function Header({ onStatsClick, onHelpClick }) {
               <rect x="2" y="12" width="3" height="6" rx="0.5" />
               <rect x="7" y="8" width="3" height="10" rx="0.5" />
               <rect x="12" y="4" width="3" height="14" rx="0.5" />
-              <rect x="17" y="2" width="1" height="0" rx="0" opacity="0" />
             </svg>
           </button>
           <button

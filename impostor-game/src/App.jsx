@@ -6,6 +6,7 @@ import ConnectionReveal from './components/ConnectionReveal.jsx';
 import ScoreCard from './components/ScoreCard.jsx';
 import StatsModal from './components/StatsModal.jsx';
 import OnboardingOverlay from './components/OnboardingOverlay.jsx';
+import ArchiveModal from './components/ArchiveModal.jsx';
 import Confetti from './components/Confetti.jsx';
 import { useGameState } from './hooks/useGameState.js';
 import { useStats } from './hooks/useStats.js';
@@ -63,14 +64,19 @@ function ErrorScreen({ message }) {
 export default function App() {
   const [showStats, setShowStats] = useState(false);
   const [showOnboarding, setShowOnboarding] = useState(false);
+  const [showArchive, setShowArchive] = useState(false);
+  const [archiveDate, setArchiveDate] = useState(null);   // null = daily puzzle
+  const [archiveNumber, setArchiveNumber] = useState(null);
+
   const { stats, recordResult } = useStats();
   const { playTriumph } = useTriumphSound();
 
   const handleGameComplete = useCallback(
     (won, wrongCount) => {
-      recordResult(won, wrongCount);
+      // Only record stats for the daily puzzle
+      if (!archiveDate) recordResult(won, wrongCount);
     },
-    [recordResult]
+    [recordResult, archiveDate]
   );
 
   const {
@@ -89,11 +95,20 @@ export default function App() {
     confirmGuess,
     completeOnboarding,
     proceedToScorecard,
-  } = useGameState(handleGameComplete);
+  } = useGameState(handleGameComplete, archiveDate);
 
-  const handleHelpClick = useCallback(() => {
-    // Re-show the onboarding overlay when help is clicked
-    setShowOnboarding(true);
+  const handleHelpClick = useCallback(() => setShowOnboarding(true), []);
+  const handleArchiveClick = useCallback(() => setShowArchive(true), []);
+
+  const handleSelectArchivePuzzle = useCallback((date, number) => {
+    setArchiveDate(date);
+    setArchiveNumber(number);
+    setShowArchive(false);
+  }, []);
+
+  const handleReturnToDaily = useCallback(() => {
+    setArchiveDate(null);
+    setArchiveNumber(null);
   }, []);
 
   // Play fanfare once when the player wins and enters the revealing phase
@@ -101,10 +116,16 @@ export default function App() {
     if (won && phase === 'revealing') playTriumph();
   }, [won, phase, playTriumph]);
 
+  const headerProps = {
+    onStatsClick: () => setShowStats(true),
+    onHelpClick: handleHelpClick,
+    onArchiveClick: handleArchiveClick,
+  };
+
   if (phase === 'loading') {
     return (
       <div className="min-h-screen bg-game-bg flex flex-col">
-        <Header onStatsClick={() => setShowStats(true)} onHelpClick={handleHelpClick} />
+        <Header {...headerProps} />
         <LoadingScreen />
       </div>
     );
@@ -113,9 +134,15 @@ export default function App() {
   if (phase === 'no-puzzle' || noPuzzle) {
     return (
       <div className="min-h-screen bg-game-bg flex flex-col">
-        <Header onStatsClick={() => setShowStats(true)} onHelpClick={handleHelpClick} />
+        <Header {...headerProps} />
         <NoPuzzleScreen />
         {showStats && <StatsModal stats={stats} onClose={() => setShowStats(false)} />}
+        {showArchive && (
+          <ArchiveModal
+            onClose={() => setShowArchive(false)}
+            onSelectPuzzle={handleSelectArchivePuzzle}
+          />
+        )}
       </div>
     );
   }
@@ -123,7 +150,7 @@ export default function App() {
   if (phase === 'error') {
     return (
       <div className="min-h-screen bg-game-bg flex flex-col">
-        <Header onStatsClick={() => setShowStats(true)} onHelpClick={handleHelpClick} />
+        <Header {...headerProps} />
         <ErrorScreen message={error} />
       </div>
     );
@@ -136,26 +163,44 @@ export default function App() {
 
   const wrongGuessCount = wrongGuesses.length;
   const maxWrong = 5;
-
   const showConfetti = won && (phase === 'revealing' || phase === 'scorecard');
 
   return (
     <div className="min-h-screen bg-game-bg flex flex-col">
       {showConfetti && <Confetti />}
 
-      {/* Onboarding overlay — first-time OR help button */}
+      {/* Onboarding overlay — first-time OR help button (daily only) */}
       {(phase === 'onboarding' || showOnboarding) && (
         <OnboardingOverlay
           onComplete={() => {
-            if (phase === 'onboarding') {
-              completeOnboarding();
-            }
+            if (phase === 'onboarding') completeOnboarding();
             setShowOnboarding(false);
           }}
         />
       )}
 
-      <Header onStatsClick={() => setShowStats(true)} onHelpClick={handleHelpClick} />
+      <Header {...headerProps} />
+
+      {/* Archive mode banner */}
+      {archiveDate && (
+        <div className="w-full border-b border-game-border bg-game-bg">
+          <div className="max-w-2xl mx-auto px-4 py-2 flex items-center justify-between">
+            <span
+              className="text-game-accent text-xs font-bold uppercase tracking-widest"
+              style={{ fontFamily: '"Space Grotesk", system-ui, sans-serif' }}
+            >
+              Archive #{archiveNumber}
+            </span>
+            <button
+              onClick={handleReturnToDaily}
+              className="text-game-muted hover:text-game-text text-xs uppercase tracking-widest transition-colors"
+              style={{ fontFamily: '"Space Grotesk", system-ui, sans-serif' }}
+            >
+              ← Today's puzzle
+            </button>
+          </div>
+        </div>
+      )}
 
       <main className="flex-1 flex flex-col items-center w-full max-w-2xl mx-auto px-4 py-8 gap-8">
         {/* Game header */}
@@ -201,7 +246,6 @@ export default function App() {
         {/* Playing / Revealing phases */}
         {(phase === 'playing' || phase === 'revealing') && (
           <>
-            {/* Connection reveal section */}
             {phase === 'revealing' && (
               <ConnectionReveal
                 puzzle={puzzle}
@@ -211,7 +255,6 @@ export default function App() {
               />
             )}
 
-            {/* Word grid */}
             {phase === 'playing' && (
               <>
                 <WordGrid
@@ -224,12 +267,10 @@ export default function App() {
                   onSelect={selectWord}
                 />
 
-                {/* Hint panel */}
                 {hintsRevealed > 0 && (
                   <HintPanel hints={puzzle.hints} hintsRevealed={hintsRevealed} />
                 )}
 
-                {/* Confirm button */}
                 <div className="w-full flex flex-col items-center gap-3">
                   {canConfirm && (
                     <button
@@ -258,6 +299,12 @@ export default function App() {
       </main>
 
       {showStats && <StatsModal stats={stats} onClose={() => setShowStats(false)} />}
+      {showArchive && (
+        <ArchiveModal
+          onClose={() => setShowArchive(false)}
+          onSelectPuzzle={handleSelectArchivePuzzle}
+        />
+      )}
     </div>
   );
 }
