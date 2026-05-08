@@ -4,5 +4,11 @@
   { "number": 3, "date": "2026-04-16", "difficulty": "medium" },
   { "number": 4, "date": "2026-04-17", "difficulty": "hard" },
   { "number": 5, "date": "2026-04-18", "difficulty": "medium" },
-  { "number": 6, "date": "2026-04-19", "difficulty": "easy" }
+  { "number": 6, "date": "2026-04-19", "difficulty": "easy" },
+  { "number": 7, "date": "2026-06-01", "difficulty": "medium" },
+  { "number": 8, "date": "2026-06-02", "difficulty": "hard" },
+  { "number": 9, "date": "2026-06-03", "difficulty": "medium" },
+  { "number": 10, "date": "2026-06-04", "difficulty": "easy" },
+  { "number": 11, "date": "2026-06-05", "difficulty": "medium" },
+  { "number": 12, "date": "2026-06-06", "difficulty": "hard" }
 ]

@@ -1,0 +1,15 @@
+{
+  "id": "2026-06-02",
+  "words": ["SMITH", "HART", "QUESTLOVE", "PINK", "SWIFT"],
+  "impostor": "SWIFT",
+  "connection": "Four performers were born in Philadelphia: Will Smith (West Philadelphia), Kevin Hart (North Philadelphia), Questlove (Philadelphia), and Pink (Doylestown, raised in Philadelphia). Taylor Swift was born in West Reading, PA — about 60 miles from the city.",
+  "hints": [
+    "The connection is birthplace.",
+    "Think Philadelphia specifically — not just Pennsylvania.",
+    "Four of these performers were born in or raised in Philadelphia.",
+    "One was born in Berks County, PA — West Reading, to be exact. Not Philadelphia."
+  ],
+  "difficulty": "hard",
+  "tags": ["philadelphia", "celebrities", "music", "philly"],
+  "display_word_order": [4, 1, 3, 0, 2]
+}

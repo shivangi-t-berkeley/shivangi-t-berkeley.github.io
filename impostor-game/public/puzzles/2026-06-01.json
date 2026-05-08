@@ -1,0 +1,15 @@
+{
+  "id": "2026-06-01",
+  "words": ["EAGLES", "PHILLIES", "SIXERS", "FLYERS", "UNION"],
+  "impostor": "UNION",
+  "connection": "Four are Philadelphia's 'Big Four' professional sports teams, competing in the NFL, MLB, NBA, and NHL. The Philadelphia Union plays in MLS — a league founded in 1993, not one of the four historic major North American pro sports leagues.",
+  "hints": [
+    "The connection is about sports leagues, not the teams themselves.",
+    "Think about the four oldest, most established professional sports leagues in North America.",
+    "Four of these teams play at the Linc, Citizens Bank Park, the Wells Fargo Center, or the Spectrum. One plays at Subaru Park.",
+    "MLS was founded in 1993. The NFL, MLB, NBA, and NHL all predate 1950. The Philadelphia Union plays in MLS."
+  ],
+  "difficulty": "medium",
+  "tags": ["philadelphia", "sports", "philly"],
+  "display_word_order": [2, 0, 4, 1, 3]
+}

@@ -1,0 +1,15 @@
+{
+  "id": "2026-06-03",
+  "words": ["WHIZ", "PROVOLONE", "AMERICAN", "CHEDDAR", "MOZZARELLA"],
+  "impostor": "MOZZARELLA",
+  "connection": "Four are accepted cheese choices for a Philly cheesesteak. The canonical trio is Cheez Whiz, provolone, and American — cheddar is also sometimes used. Mozzarella is not a traditional cheesesteak cheese and you won't find it on the menu at Pat's or Geno's.",
+  "hints": [
+    "The connection is a Philadelphia food order.",
+    "Think cheesesteak.",
+    "Four of these are legitimate answers to 'wit which cheese?' at a Philly cheesesteak counter.",
+    "You'll find Whiz, provolone, American, and sometimes cheddar on the board. The Italian one doesn't belong."
+  ],
+  "difficulty": "medium",
+  "tags": ["philadelphia", "food", "cheesesteak", "philly"],
+  "display_word_order": [3, 0, 2, 4, 1]
+}

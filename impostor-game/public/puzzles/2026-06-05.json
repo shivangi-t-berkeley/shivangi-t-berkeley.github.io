@@ -1,0 +1,15 @@
+{
+  "id": "2026-06-05",
+  "words": ["ROCKY", "MICKEY", "APOLLO", "DUKE", "IVAN"],
+  "impostor": "IVAN",
+  "connection": "Four are Rocky franchise characters with deep ties to Philadelphia — Rocky Balboa trains and fights there, Mickey is his Philly trainer, Apollo Creed fights him in Philadelphia, and Duke is Apollo's corner man. Ivan Drago is the Soviet boxer Rocky travels to the USSR to fight; he has no connection to Philadelphia.",
+  "hints": [
+    "The connection is a Philadelphia movie franchise.",
+    "Think Rocky.",
+    "Four of these characters live in, train in, or represent Philadelphia.",
+    "One is a Soviet Olympic boxer Rocky fights abroad in Rocky IV — the film set almost entirely outside Philadelphia."
+  ],
+  "difficulty": "medium",
+  "tags": ["philadelphia", "rocky", "movies", "philly"],
+  "display_word_order": [1, 4, 0, 3, 2]
+}

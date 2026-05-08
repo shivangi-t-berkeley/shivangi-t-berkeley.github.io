@@ -1,0 +1,15 @@
+{
+  "id": "2026-06-04",
+  "words": ["FISHTOWN", "KENSINGTON", "MANAYUNK", "FAIRMOUNT", "CAMDEN"],
+  "impostor": "CAMDEN",
+  "connection": "Four are neighborhoods within Philadelphia's city limits. Camden is a separate city in New Jersey, directly across the Delaware River from Philadelphia — connected by the Ben Franklin Bridge.",
+  "hints": [
+    "The connection is location within one specific city.",
+    "Think Philadelphia.",
+    "Four of these are official Philadelphia neighborhoods.",
+    "One of these sits on the other side of the Ben Franklin Bridge — in New Jersey."
+  ],
+  "difficulty": "easy",
+  "tags": ["philadelphia", "neighborhoods", "geography", "philly"],
+  "display_word_order": [0, 4, 2, 1, 3]
+}
