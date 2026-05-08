@@ -91,7 +91,7 @@
     },
     {
       title: 'Reveal the dish',
-      body: 'Find all ingredients to reveal what dish you\'ve cooked, plus a link to the full recipe. Come back every day for a new dish!',
+      body: 'Find all ingredients to reveal what dish you\'ve cooked, plus a link to find it in Philly. Come back every day for a new dish!',
       visual: `<div style="display:flex;flex-direction:column;align-items:center;gap:8px;padding:12px">
         <span style="font-size:3.5rem">🍽️</span>
         <span style="font-family:serif;font-size:1.1rem;font-weight:700;color:#1C1814">Cacio e Pepe</span>
@@ -205,6 +205,10 @@
   // ─── Puzzle Selection ─────────────────────────────────────────────────────
   function getTodaysPuzzle() {
     const today = getTodayDate();
+    // Run guacamole through May 31, 2026
+    if (today >= '2026-05-01' && today <= '2026-05-31') {
+      return PUZZLES.find(p => p.id === '2026-04-24');
+    }
     const exact = PUZZLES.find(p => p.id === today);
     if (exact) return exact;
     const idx = hashString(today) % PUZZLES.length;
@@ -747,11 +751,11 @@
       .join('');
     const elapsed = formatTime(gameState.endTime - gameState.startTime);
     return [
-      `Mise en Place — ${dateStr}`,
+      `Philly Ingredients — ${dateStr}`,
       `🍽️ ${puzzle.dish_display_name}`,
       emojiRow,
       `Found all ${puzzle.words.length} ingredients in ${elapsed}`,
-      `mise-en-place.app`
+      `philly-ingredients.app`
     ].join('\n');
   }
 

@@ -19,7 +19,7 @@ const PUZZLES = [
       { word: "STARCH",    emoji: "🌾", display: "Pasta Starch" },
       { word: "EGG",       emoji: "🥚", display: "Egg Yolk" }
     ],
-    recipe_url: "https://cooking.nytimes.com/recipes/1017965-cacio-e-pepe",
+    recipe_url: "https://www.inquirer.com/food/restaurants/andiario/",
     illustration_emoji: "🍝",
     illustration_asset: null
   },
@@ -40,7 +40,7 @@ const PUZZLES = [
       { word: "YOGURT",   emoji: "🥣", display: "Yogurt" },
       { word: "BUTTER",   emoji: "🧈", display: "Butter" }
     ],
-    recipe_url: "https://cooking.nytimes.com/recipes/1017351-chicken-tikka-masala",
+    recipe_url: "https://inquirer.com/food/restaurants/madness-of-masala",
     illustration_emoji: "🍛",
     illustration_asset: null
   },
@@ -59,7 +59,7 @@ const PUZZLES = [
       { word: "GARLIC",   emoji: "🧄", display: "Garlic" },
       { word: "SALT",     emoji: "🧂", display: "Salt" }
     ],
-    recipe_url: "https://www.seriouseats.com/the-best-guacamole",
+    recipe_url: "https://inquirer.com/food/restaurants/el-chingon",
     illustration_emoji: "🥑",
     illustration_asset: null
   },
@@ -80,7 +80,7 @@ const PUZZLES = [
       { word: "EGGS",     emoji: "🥚", display: "Soft-boiled Eggs" },
       { word: "SCALLION", emoji: "🌱", display: "Scallion" }
     ],
-    recipe_url: "https://www.seriouseats.com/rich-and-creamy-tonkotsu-ramen-broth-recipe",
+    recipe_url: "https://www.inquirer.com/food/restaurants/best-ramen-philadelphia.html",
     illustration_emoji: "🍜",
     illustration_asset: null
   },
@@ -100,7 +100,7 @@ const PUZZLES = [
       { word: "MARSALA",    emoji: "🍷", display: "Marsala Wine" },
       { word: "CREAM",      emoji: "🥛", display: "Heavy Cream" }
     ],
-    recipe_url: "https://cooking.nytimes.com/recipes/1018684-classic-tiramisu",
+    recipe_url: "https://www.inquirer.com/food/restaurants/andiario/",
     illustration_emoji: "🍰",
     illustration_asset: null
   }
