@@ -31,13 +31,13 @@ export function buildShareText(puzzle, guesses, displayedWords, won) {
   const emojiGrid = rows.join('\n');
 
   return [
-    `IMPOSTOR — ${dateDisplay}`,
+    `PHILLY PHONY — ${dateDisplay}`,
     `🕵️ ${scoreDisplay} ${label}`,
     '',
     emojiGrid,
     '',
     puzzle.connection,
-    'impostor.game',
+    'phillyphony.game',
   ].join('\n');
 }
 

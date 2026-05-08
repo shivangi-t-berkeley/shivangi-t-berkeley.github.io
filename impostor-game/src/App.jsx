@@ -212,8 +212,8 @@ export default function App() {
                 ? `${wrongGuessCount} / ${maxWrong} wrong guesses`
                 : phase === 'revealing'
                 ? won
-                  ? 'Impostor found!'
-                  : 'The impostor got away'
+                  ? 'Phony found!'
+                  : 'The phony got away'
                 : null}
             </div>
 

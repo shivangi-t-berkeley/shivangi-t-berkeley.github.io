@@ -1,16 +1,15 @@
 {
   "id": "2026-05-10",
-
-  "words": ["IRON", "BRONZE", "STONE", "ICE", "COPPER"],
-  "impostor": "COPPER",
-  "connection": "Four are the first word of a recognized historical or geological age: Iron Age, Bronze Age, Stone Age, Ice Age. \"Copper Age\" is not the standard English name — the correct term is the Chalcolithic.",
+  "words": ["JAWN", "WOODER", "IGGLES", "DRAWLIN", "BODEGA"],
+  "impostor": "BODEGA",
+  "connection": "Four are distinctly Philadelphia slang words or local pronunciations: 'jawn' (a catch-all noun for any person, place, or thing), 'wooder' (the Philly pronunciation of 'water'), 'iggles' (the Eagles), and 'drawlin' (acting foolish or out of pocket). 'Bodega' — slang for a small corner store — is primarily New York City terminology; Philadelphians say 'corner store.'",
   "hints": [
-    "The connection is historical.",
-    "Think about named periods of human history or Earth's geology.",
-    "Four of these precede AGE to name a recognized era.",
-    "Iron Age, Bronze Age, Stone Age, and Ice Age are all standard terms. \"Copper Age\" is not — historians call it the Chalcolithic or Eneolithic."
+    "The connection is language — specifically, one city's dialect.",
+    "Think Philadelphia slang and pronunciation.",
+    "Four of these words or pronunciations are unique to Philadelphia.",
+    "One is New York City slang for the small shops Philadelphians just call 'corner stores.'"
   ],
   "difficulty": "hard",
-  "tags": ["history", "geology", "ages"],
-  "display_word_order": [2, 0, 4, 1, 3]
+  "tags": ["philadelphia", "slang", "language", "philly"],
+  "display_word_order": [3, 0, 4, 2, 1]
 }

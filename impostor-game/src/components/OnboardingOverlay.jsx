@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 const SLIDES = [
   {
     title: 'Five words.\nOne doesn\'t belong.',
-    body: 'Each puzzle has five words. Four share a hidden connection. One is the impostor — it doesn\'t fit.',
+    body: 'Each puzzle has five words. Four share a hidden connection. One is the phony — it doesn\'t fit.',
     visual: 'grid',
   },
   {
@@ -12,7 +12,7 @@ const SLIDES = [
     visual: 'hints',
   },
   {
-    title: 'Find\nthe impostor.',
+    title: 'Find\nthe phony.',
     body: 'Select a word and confirm your guess. The fewer hints you need, the higher your score.',
     visual: 'reveal',
   },

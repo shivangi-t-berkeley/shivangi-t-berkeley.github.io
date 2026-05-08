@@ -11,7 +11,7 @@ export default function ConnectionReveal({ puzzle, displayedWords, won, onContin
         ].join(' ')}
       >
         <span className="text-white font-bold text-sm uppercase tracking-widest">
-          {won ? 'Correct — You found the impostor!' : 'The impostor got away.'}
+          {won ? 'Correct — You found the phony!' : 'The phony got away.'}
         </span>
       </div>
 
@@ -48,7 +48,7 @@ export default function ConnectionReveal({ puzzle, displayedWords, won, onContin
                 {word}
                 {isImpostor && (
                   <span className="ml-2 text-[10px] font-normal normal-case tracking-normal opacity-80">
-                    impostor
+                    phony
                   </span>
                 )}
               </div>

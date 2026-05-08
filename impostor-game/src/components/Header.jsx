@@ -9,7 +9,7 @@ export default function Header({ onStatsClick, onHelpClick, onArchiveClick }) {
           className="text-game-text tracking-widest text-sm font-bold uppercase"
           style={{ fontFamily: '"Space Grotesk", system-ui, sans-serif', letterSpacing: '0.2em' }}
         >
-          IMPOSTOR
+          PHILLY PHONY
         </span>
 
         {/* Actions */}
