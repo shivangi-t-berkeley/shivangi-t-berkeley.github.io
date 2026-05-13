@@ -1,0 +1,15 @@
+{
+  "id": "2026-06-10",
+  "words": ["MCNABB", "WENTZ", "FOLES", "HURTS", "PRESCOTT"],
+  "impostor": "PRESCOTT",
+  "connection": "Donovan McNabb, Carson Wentz, Nick Foles, and Jalen Hurts all started at quarterback for the Philadelphia Eagles. Dak Prescott is the longtime starter for the Dallas Cowboys — the Eagles' biggest rival.",
+  "hints": [
+    "The connection is about an NFL position on a specific team.",
+    "Think Philadelphia Eagles.",
+    "Four of these players have started at quarterback for the Eagles.",
+    "One starts for the team Eagles fans hate most — he's never worn midnight green."
+  ],
+  "difficulty": "medium",
+  "tags": ["philadelphia", "eagles", "nfl", "sports"],
+  "display_word_order": [0, 4, 2, 1, 3]
+}

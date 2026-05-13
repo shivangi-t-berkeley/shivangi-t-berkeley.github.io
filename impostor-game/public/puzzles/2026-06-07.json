@@ -1,0 +1,15 @@
+{
+  "id": "2026-06-07",
+  "words": ["ALWAYS", "MARE", "ABBOTT", "SERVANT", "SEINFELD"],
+  "impostor": "SEINFELD",
+  "connection": "It's Always Sunny in Philadelphia, Mare of Easttown, Abbott Elementary, and Servant are all TV shows set in Philadelphia or its suburbs. Seinfeld is set in New York City.",
+  "hints": [
+    "The connection is about where these TV shows take place.",
+    "Think Philadelphia — on screen.",
+    "Four of these shows are set in or around Philadelphia.",
+    "One never left Manhattan — its four main characters spent almost no time outside New York City."
+  ],
+  "difficulty": "medium",
+  "tags": ["philadelphia", "tv", "pop culture"],
+  "display_word_order": [1, 4, 0, 3, 2]
+}

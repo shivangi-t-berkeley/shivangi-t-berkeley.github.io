@@ -1,0 +1,15 @@
+{
+  "id": "2026-06-08",
+  "words": ["WAWA", "TASTYKAKE", "HERRS", "AMOROSO", "SHEETZ"],
+  "impostor": "SHEETZ",
+  "connection": "Wawa, Tastykake, Herr's, and Amoroso's are all beloved Philadelphia-area brands locals grow up with. Sheetz is a convenience store chain from Altoona in western Pennsylvania — a direct Wawa rival, but not a Philly institution.",
+  "hints": [
+    "The connection is about regional brands.",
+    "Think Philadelphia specifically — not all of Pennsylvania.",
+    "Four of these brands are synonymous with the Philadelphia area.",
+    "One is from Altoona, PA — western Pennsylvania's answer to Wawa. Philly diehards don't claim it."
+  ],
+  "difficulty": "easy",
+  "tags": ["philadelphia", "food", "brands"],
+  "display_word_order": [2, 0, 4, 1, 3]
+}

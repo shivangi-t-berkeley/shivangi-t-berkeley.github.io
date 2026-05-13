@@ -1,0 +1,15 @@
+{
+  "id": "2026-06-09",
+  "words": ["CHESTNUT", "WALNUT", "LOCUST", "SPRUCE", "BROAD"],
+  "impostor": "BROAD",
+  "connection": "Chestnut, Walnut, Locust, and Spruce are tree-named east-west streets from William Penn's original Center City grid. Broad Street runs north-south — it's Philadelphia's main artery and the longest straight urban street in the United States.",
+  "hints": [
+    "The connection is about Philadelphia's street grid.",
+    "Think about Center City's famous east-west cross-streets.",
+    "Four of these are tree-named streets from William Penn's original city plan.",
+    "One runs north-south, not east-west — it's the backbone of the city, not part of the tree-named grid."
+  ],
+  "difficulty": "medium",
+  "tags": ["philadelphia", "streets", "history"],
+  "display_word_order": [4, 0, 2, 1, 3]
+}

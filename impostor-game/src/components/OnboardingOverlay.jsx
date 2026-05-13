@@ -3,17 +3,17 @@ import React, { useState, useEffect } from 'react';
 const SLIDES = [
   {
     title: 'Five words.\nOne doesn\'t belong.',
-    body: 'Each puzzle has five words. Four share a hidden connection. One is the phony — it doesn\'t fit.',
+    body: 'Every puzzle hides a secret connection. Four words share it — one is the phony. Your job: find it.',
     visual: 'grid',
   },
   {
     title: 'Wrong guesses\nreveal hints.',
-    body: 'Every incorrect guess unlocks a new hint. Up to four hints are available. Use them wisely.',
+    body: 'Made a wrong call? A clue unlocks. Up to four hints total — but the more you use, the lower your score.',
     visual: 'hints',
   },
   {
     title: 'Find\nthe phony.',
-    body: 'Select a word and confirm your guess. The fewer hints you need, the higher your score.',
+    body: 'Pick a word, lock in your guess. Nail it without hints and you\'re sharp — a perfect score.',
     visual: 'reveal',
   },
 ];
@@ -92,7 +92,7 @@ function RevealVisual() {
         className="bg-game-correct rounded-sm py-2 px-4 text-center"
       >
         <span className="text-white text-xs font-bold uppercase tracking-widest">
-          Correct — You found the impostor!
+          Correct — You found the phony!
         </span>
       </div>
 
@@ -161,8 +161,14 @@ export default function OnboardingOverlay({ onComplete }) {
       style={{ backgroundColor: 'rgba(0,0,0,0.92)' }}
     >
       <div className="modal-enter bg-game-card border border-game-border rounded-sm w-full max-w-sm flex flex-col">
-        {/* Skip */}
-        <div className="flex justify-end p-4 pb-0">
+        {/* Header row: title + skip */}
+        <div className="flex items-center justify-between px-6 pt-5 pb-0">
+          <span
+            className="text-game-accent text-xs font-bold uppercase tracking-widest"
+            style={{ fontFamily: '"Space Grotesk", system-ui, sans-serif', letterSpacing: '0.18em' }}
+          >
+            How to Play
+          </span>
           <button
             onClick={onComplete}
             className="text-game-muted hover:text-game-text text-xs uppercase tracking-widest transition-colors"
@@ -172,7 +178,7 @@ export default function OnboardingOverlay({ onComplete }) {
         </div>
 
         {/* Slide indicator — decorative only */}
-        <div className="flex justify-center gap-2 pt-2 pb-4">
+        <div className="flex justify-center gap-2 pt-4 pb-4">
           {SLIDES.map((_, i) => (
             <div
               key={i}

@@ -1,0 +1,15 @@
+{
+  "id": "2026-06-11",
+  "words": ["FANCY", "COMIC", "WENCH", "STRING", "DRUM"],
+  "impostor": "DRUM",
+  "connection": "Fancy Brigades, Comics, Wench Brigades, and String Bands are the four official divisions of Philadelphia's Mummers Parade on New Year's Day. Drum is not a Mummers category — those sequined brigades march without a drum corps division.",
+  "hints": [
+    "The connection is about a famous Philadelphia New Year's Day tradition.",
+    "Think about the Mummers Parade on Broad Street.",
+    "Four of these are official divisions of the annual Mummers Parade.",
+    "One sounds like it belongs in a parade but isn't a Mummers category — there is no drum corps division."
+  ],
+  "difficulty": "hard",
+  "tags": ["philadelphia", "mummers", "tradition"],
+  "display_word_order": [3, 0, 4, 2, 1]
+}

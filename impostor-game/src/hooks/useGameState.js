@@ -10,6 +10,19 @@ function getPuzzleStateKey(dateStr, isArchive) {
     : `impostor_puzzle_${dateStr}_state`;
 }
 
+function getArchiveDoneKey(dateStr) {
+  return `impostor_archive_${dateStr}_done`;
+}
+
+function saveArchiveDone(dateStr, won) {
+  // Separate completion record so archive games can always start fresh
+  try {
+    localStorage.setItem(getArchiveDoneKey(dateStr), JSON.stringify({ won }));
+  } catch {
+    // ignore
+  }
+}
+
 function loadSavedState(dateStr, isArchive) {
   try {
     const raw = localStorage.getItem(getPuzzleStateKey(dateStr, isArchive));
@@ -88,7 +101,9 @@ export function useGameState(onGameComplete, overrideDateStr = null) {
         setDisplayedWords(buildDisplayedWords(data));
 
         const saved = loadSavedState(dateStr, isArchive);
-        if (saved && (saved.phase === 'revealing' || saved.phase === 'scorecard')) {
+
+        if (!isArchive && saved && (saved.phase === 'revealing' || saved.phase === 'scorecard')) {
+          // Daily puzzle: restore completed state
           setGuesses(saved.guesses || []);
           setHintsRevealed(saved.hintsRevealed || 0);
           setWon(saved.won || false);
@@ -96,6 +111,8 @@ export function useGameState(onGameComplete, overrideDateStr = null) {
           return;
         }
 
+        // Archive puzzles that were completed always start fresh
+        // (completion is tracked separately via impostor_archive_${date}_done)
         if (saved && saved.phase === 'playing') {
           setGuesses(saved.guesses || []);
           setHintsRevealed(saved.hintsRevealed || 0);
@@ -152,6 +169,7 @@ export function useGameState(onGameComplete, overrideDateStr = null) {
       setWon(true);
       setPhase('revealing');
       saveState(dateStr, isArchive, { guesses: newGuesses, hintsRevealed, phase: 'revealing', won: true });
+      if (isArchive) saveArchiveDone(dateStr, true);
       onGameCompleteRef.current?.(true, wrongCount);
     } else {
       setShakingWord(selectedWord);
@@ -169,6 +187,7 @@ export function useGameState(onGameComplete, overrideDateStr = null) {
         setTimeout(() => {
           setPhase('revealing');
           saveState(dateStr, isArchive, { guesses: newGuesses, hintsRevealed: newHints, phase: 'revealing', won: false });
+          if (isArchive) saveArchiveDone(dateStr, false);
           onGameCompleteRef.current?.(false, wrongCount);
         }, 700);
       } else {

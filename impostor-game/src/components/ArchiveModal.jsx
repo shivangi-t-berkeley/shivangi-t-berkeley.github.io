@@ -5,8 +5,8 @@ const DIFFICULTY_COLOR = { easy: '#22c55e', medium: '#f5c842', hard: '#ef4444' }
 
 function getCompletionState(date) {
   try {
-    // Archive plays are stored under a separate key prefix
-    const raw = localStorage.getItem(`impostor_archive_${date}_state`);
+    // Completion is tracked in a separate done key so archive games can always start fresh
+    const raw = localStorage.getItem(`impostor_archive_${date}_done`);
     if (!raw) return null;
     return JSON.parse(raw);
   } catch {
@@ -51,7 +51,7 @@ export default function ArchiveModal({ onClose, onSelectPuzzle }) {
         <div className="overflow-y-auto flex-1 p-3 space-y-1.5">
           {puzzles.map((p) => {
             const saved = getCompletionState(p.date);
-            const played = saved?.phase === 'scorecard' || saved?.phase === 'revealing';
+            const played = saved !== null;
             const wonIt = saved?.won;
             const dots = DIFFICULTY_DOTS[p.difficulty] ?? 1;
             const color = DIFFICULTY_COLOR[p.difficulty] ?? '#f5f5f5';
